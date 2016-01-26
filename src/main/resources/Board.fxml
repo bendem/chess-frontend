@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox fx:id="root" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.bendem.chess.BoardController">
+    <children>
+        <VBox fx:id="canvasContainer" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="80.0" minWidth="80.0">
+            <children>
+                <Canvas fx:id="canvas" height="600.0" width="600.0" VBox.vgrow="NEVER" />
+            </children>
+            <padding>
+                <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+            </padding>
+        </VBox>
+        <VBox fx:id="sidebar" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="200.0" spacing="5.0" HBox.hgrow="ALWAYS">
+            <children>
+                <Button fx:id="aiButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Let the AI decide" />
+                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Save the game" />
+                <FlowPane fx:id="topPieces" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="200.0" />
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="100.0" VBox.vgrow="ALWAYS">
+                    <content>
+                        <VBox fx:id="logs" maxHeight="1.7976931348623157E308" />
+                    </content>
+                </ScrollPane>
+                <FlowPane fx:id="bottomPieces" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="200.0" />
+            </children>
+        </VBox>
+    </children>
+    <padding>
+        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+    </padding>
+</HBox>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="800.0" prefWidth="800.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.bendem.chess.HomeController">
+    <children>
+        <Label alignment="CENTER" prefHeight="300.0" text="Chess Stuff">
+            <font>
+                <Font size="30.0" />
+            </font>
+        </Label>
+        <Button fx:id="continueGame" disable="true" mnemonicParsing="false" prefWidth="200.0" text="Continue game" />
+        <Button fx:id="newGame" alignment="CENTER" mnemonicParsing="false" prefWidth="200.0" text="New game" />
+        <Button fx:id="loadGame" mnemonicParsing="false" prefWidth="200.0" text="Load game" />
+        <Button fx:id="config" mnemonicParsing="false" prefWidth="200.0" text="Config" />
+    </children>
+</VBox>
