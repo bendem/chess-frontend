@@ -40,16 +40,16 @@ public class SVGToPNGTransformer {
         );
     }
 
-    public Image toImage(InputStream inputStream, float width, float height) throws IOException, TranscoderException {
+    public Image toImage(InputStream inputStream, double width, double height) throws IOException, TranscoderException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         writeTo(inputStream, width, height, os);
         return new Image(new ByteArrayInputStream(os.toByteArray()));
     }
 
-    public OutputStream writeTo(InputStream inputStream, float width, float height, OutputStream os) throws IOException, TranscoderException {
+    public OutputStream writeTo(InputStream inputStream, double width, double height, OutputStream os) throws IOException, TranscoderException {
         Transcoder transcoder = new PNGTranscoder();
-        transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, width);
-        transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, height);
+        transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, (float) width);
+        transcoder.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, (float) height);
 
         TranscoderInput input = new TranscoderInput(inputStream);
         TranscoderOutput output = new TranscoderOutput(os);

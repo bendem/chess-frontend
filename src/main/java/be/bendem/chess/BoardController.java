@@ -2,6 +2,7 @@ package be.bendem.chess;
 
 import be.bendem.chess.board.Board;
 import be.bendem.chess.board.BoardPiece;
+import be.bendem.chess.board.Coordinate;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class BoardController implements Initializable {
@@ -31,6 +33,7 @@ public class BoardController implements Initializable {
     @FXML private VBox logs;
     @FXML private FlowPane bottomPieces;
     private Board board;
+    private MouseMovementHandler mouseMovementHandler;
 
     public BoardController(ChessApp app) {
         this.app = app;
@@ -47,13 +50,16 @@ public class BoardController implements Initializable {
 
     public BoardController setBoard(Board board) {
         this.board = board;
+        board.move(1, 6, 1, 5);
+        this.mouseMovementHandler = new MouseMovementHandler(this, board, canvas);
+
         return this;
     }
 
     public BoardController draw() {
         GraphicsContext ctx = canvas.getGraphicsContext2D();
         drawGrid(ctx);
-        drawPieces(ctx);
+        drawBoardContent(ctx);
         return this;
     }
 
@@ -62,32 +68,44 @@ public class BoardController implements Initializable {
         double square = size / 8;
         boolean black = false;
 
-        for(int i = 0; i < 8; ++i) {
-            for(int j = 0; j < 8; ++j) {
+        for(int x = 0; x < 8; ++x) {
+            for(int y = 0; y < 8; ++y) {
                 if(black) {
                     ctx.setFill(Color.DARKGRAY);
                 } else {
                     ctx.setFill(Color.WHITE);
                 }
                 black = !black;
-                ctx.fillRect(square * i, square * j, square, square);
+                ctx.fillRect(square * x, square * y, square, square);
             }
             black = !black;
         }
     }
 
-    private void drawPieces(GraphicsContext ctx) {
+    private void drawBoardContent(GraphicsContext ctx) {
         if(board == null) {
             Log.w("Skipping board drawing, it is null");
             return;
         }
+
+        double square = getSquareSize();
+
+        Optional<Coordinate> lastMoveFrom = board.getLastMoveFrom();
+        if(lastMoveFrom.isPresent()) {
+            ctx.setFill(Color.rgb(150, 200, 150, 0.6));
+            ctx.fillRect(square * lastMoveFrom.get().x, square * lastMoveFrom.get().y, square, square);
+            Coordinate lastMoveTo = board.getLastMoveTo().get();
+            ctx.fillRect(square * lastMoveTo.x, square * lastMoveTo.y, square, square);
+        }
+
+        ctx.setFill(Color.TRANSPARENT);
 
         for(BoardPiece piece : board.getPieces()) {
             piecesSprite.draw(
                 ctx,
                 piece.getPiece(),
                 piece.getColor(),
-                getSquareSize(),
+                square,
                 piece.getCoordinate().getX(),
                 piece.getCoordinate().getY());
         }
@@ -103,11 +121,12 @@ public class BoardController implements Initializable {
         draw();
     }
 
-    private int getGridSize() {
+    public double getGridSize() {
         return getSquareSize() * 8;
     }
 
-    private int getSquareSize() {
-        return (int) Math.min(root.getWidth() - sidebar.getWidth(), root.getHeight()) / 8;
+    public double getSquareSize() {
+        return Math.min(root.getWidth() - sidebar.getWidth(), root.getHeight()) / 8;
     }
+
 }

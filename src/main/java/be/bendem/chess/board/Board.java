@@ -9,7 +9,11 @@ public class Board {
 
     private final Piece[][] pieces;
     private final Color[][] colors;
-    private final Color turn;
+    private Color turn;
+    private int lastMoveFromX = -1;
+    private int lastMoveFromY = -1;
+    private int lastMoveToX = -1;
+    private int lastMoveToY = -1;
 
     public Board() {
         pieces = new Piece[8][8];
@@ -78,8 +82,25 @@ public class Board {
         Piece taken = pieces[toX][toY];
         pieces[toX][toY] = piece;
         pieces[fromX][fromY] = null;
+        colors[toX][toY] = colors[fromX][fromY];
+        colors[fromX][fromY] = null;
+
+        lastMoveFromX = fromX;
+        lastMoveFromY = fromY;
+        lastMoveToX = toX;
+        lastMoveToY = toY;
+
+        turn = turn == Color.BLACK ? Color.WHITE : Color.BLACK;
 
         return Optional.ofNullable(taken);
+    }
+
+    public Optional<Coordinate> getLastMoveFrom() {
+        return lastMoveFromX == -1 ? Optional.empty() : Optional.of(new Coordinate(lastMoveFromX, lastMoveFromY));
+    }
+
+    public Optional<Coordinate> getLastMoveTo() {
+        return lastMoveFromX == -1 ? Optional.empty() : Optional.of(new Coordinate(lastMoveToX, lastMoveToY));
     }
 
 }

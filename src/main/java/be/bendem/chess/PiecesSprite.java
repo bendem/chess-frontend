@@ -11,8 +11,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class PiecesSprite {
 
@@ -23,11 +21,7 @@ public class PiecesSprite {
     private final SVGToPNGTransformer transformer;
     private final byte[] spriteContent;
     private Image cache;
-    private int cacheSize;
-
-    public PiecesSprite(Path file) throws IOException {
-        this(Files.newInputStream(file));
-    }
+    private double cacheSize;
 
     public PiecesSprite(InputStream inputStream) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -42,7 +36,7 @@ public class PiecesSprite {
         spriteContent = outputStream.toByteArray();
     }
 
-    public GraphicsContext draw(GraphicsContext ctx, Piece piece, Color color, int size, int x, int y) {
+    public GraphicsContext draw(GraphicsContext ctx, Piece piece, Color color, double size, int x, int y) {
         if(cache == null || cacheSize != size) {
             updateCache(size);
         }
@@ -60,8 +54,8 @@ public class PiecesSprite {
         return ctx;
     }
 
-    private void updateCache(int size) {
-        float ratio = (float) size / PIECE_SIZE;
+    private void updateCache(double size) {
+        double ratio = size / PIECE_SIZE;
         try {
             cache = transformer.toImage(new ByteArrayInputStream(spriteContent), SPRITE_WIDTH * ratio, SPRITE_HEIGHT * ratio);
         } catch(IOException | TranscoderException e) {
